@@ -44,7 +44,7 @@ jobs:
 #          version: '24.0.9'
 
       - name: Build Docker Image
-        run: docker build . -t ghcr.io/ucheumeevuruo/payment-service-ghcr:latest
+        run: docker build . -t ghcr.io/${{github.actor}}/payment-service-ghcr:latest
 
       - name: Docker Scout Scan Image
 #        run: |
@@ -71,7 +71,7 @@ jobs:
           path: scout-report.sarif
 
       - name: Docker Push image
-        run: docker push ghcr.io/ucheumeevuruo/payment-service-ghcr:latest
+        run: docker push ghcr.io/${{github.actor}}/payment-service-ghcr:latest
 
 
 
