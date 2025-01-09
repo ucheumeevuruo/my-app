@@ -1,0 +1,27 @@
+#Important: The api version depends on the installed kubernetes version
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: greenpole-v2-bond-ingress
+#  annotations:
+#    kubernetes.io/ingress.class: nginx
+#    nginx.ingress.kubernetes.io/proxy-body-size: 10000m
+#         nginx.ingress.kubernetes.io/use-regex: "true"
+#         nginx.ingress.kubernetes.io/rewrite-target: /$2
+#         nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+#         nginx.ingress.kubernetes.io/service-upstream: "true"
+    # If you encounter a redirect loop or are getting a 307 response code
+    # then you need to force the nginx ingress to connect to the backend using HTTPS.
+
+spec:
+  rules:
+    - host: localhost
+      http:
+        paths:
+          - backend:
+              service:
+                name: greenpole-v2-bond
+                port:
+                  number: 8092
+            path: /
+            pathType: Prefix

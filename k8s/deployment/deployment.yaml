@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greenpole-v2-bond
+#  namespace: greenpole
+spec:
+  replicas: 3
+#  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: greenpole-v2-bond
+  template:
+    metadata:
+      labels:
+        app: greenpole-v2-bond
+    spec:
+      containers:
+        - image: ghcr.io/ucheumeevuruo/payment-service-ghcr:latest
+          name: greenpole-v2-bond
+#          env:
+#            - name: JAVA_OPTS
+#              value: -XX:+UseParallelGC -XX:MaxRAMPercentage=75
+          ports:
+            - containerPort: 8092
+          imagePullPolicy: Always
+#          envFrom:
+#            - configMapRef:
+#                name: greenpole-v2-bond-config
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 100m
+            limits:
+              memory: 2Gi
+              cpu: 100m
+      imagePullSecrets:
+        - name: dockerconfigjson-github-com
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: greenpole-v2-bond
+#  namespace: greenpole
+spec:
+#  type: LoadBalancer
+  ports:
+    - port: 8092
+      protocol: TCP
+      targetPort: 8092
+#      nodePort: 30000
+  selector:
+    app: greenpole-v2-bond
