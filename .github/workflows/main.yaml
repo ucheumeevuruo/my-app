@@ -59,6 +59,8 @@ jobs:
           dockerhub-password: ${{ secrets.DOCKER_SECRET }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           command: quickview, cves
+          only-severities: critical, high
+          exit-code: 2
 
       - name: Docker Push image
         run: docker push ghcr.io/ucheumeevuruo/payment-service-ghcr:latest
