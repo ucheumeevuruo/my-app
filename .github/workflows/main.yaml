@@ -21,18 +21,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-
-      - name: Install Bandit Scan
-        run: pip3 install bandit
-
-      - name: Run Bandit Scan
-        run: bandit -r .
-
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -42,6 +30,23 @@ jobs:
 
 #      - name: Build with Maven
 #        run: mvn -B package --file pom.xml
+
+      - name: Setup Docker
+        uses: docker/setup-docker-action@v4.1.0
+        with:
+          docker_version: '24.0.9'
+
+      - name: Build Docker Image
+        run: docker build -f Dockerfile -t payment-service:latest .
+
+      - name: Docker Scout Scan Image
+        uses: docker/scout-action@v1.16.1
+        with:
+          command: quickview, cves
+#        run: |
+#          docker scout quickview
+#          docker scout cves
+
 
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #      - name: Update dependency graph
