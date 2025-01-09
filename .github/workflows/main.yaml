@@ -46,13 +46,15 @@ jobs:
       - name: Build Docker Image
         run: docker build . -t ghcr.io/ucheumeevuruo/payment-service-ghcr:latest
 
-      - name: Docker Scout Scan Image
-        uses: docker/scout-action@v1.16.1
-        with:
-          command: quickview, cves
+#      - name: Docker Scout Scan Image
+#        uses: docker/scout-action@v1.16.1
+#        with:
+#          command: quickview, cves
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker Push image
         run: docker push ghcr.io/ucheumeevuruo/payment-service-ghcr:latest
+
 
 
 
