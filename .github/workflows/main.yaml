@@ -60,7 +60,15 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           command: quickview, cves
           only-severities: critical, high
-          exit-code: 2
+          exit-code: true
+          sarif-file: scout-report.sarif
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: docker-scout-findings
+          path: scout-report.sarif
 
       - name: Docker Push image
         run: docker push ghcr.io/ucheumeevuruo/payment-service-ghcr:latest
