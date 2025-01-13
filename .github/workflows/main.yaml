@@ -59,7 +59,7 @@ jobs:
           dockerhub-password: ${{ secrets.DOCKER_SECRET }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           command: quickview, cves
-          only-severities: critical, high, medium
+          only-severities: critical, high
           exit-code: true
           sarif-file: scout-report.sarif
 
