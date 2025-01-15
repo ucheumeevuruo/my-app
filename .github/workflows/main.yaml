@@ -91,10 +91,10 @@ jobs:
   Deploy:
     name: Deploy To Dev
     needs: Build
-#    environment:
-#      name: Development
-#    if: |
-#      github.event_name == 'push'
+    environment:
+      name: Development
+    if: |
+      github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
