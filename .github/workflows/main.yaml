@@ -10,9 +10,11 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - '*'
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
@@ -35,7 +37,7 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Cache Maven packages
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -96,7 +98,7 @@ jobs:
     environment:
       name: Development
     if: |
-      github.event_name == 'push'
+      github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
@@ -109,7 +111,7 @@ jobs:
     environment:
       name: Release
     if: |
-      github.event.ref == 'refs/head/main'
+      github.event.ref == 'refs/head/main' && github.ref == 'refs/heads/release'
     runs-on: ubuntu-latest
 
     steps:
