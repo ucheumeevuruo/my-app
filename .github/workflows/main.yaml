@@ -9,8 +9,8 @@
 name: Java CI with Maven
 
 on:
-#  push:
-#    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Development
+    if: |
+      github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -107,7 +109,7 @@ jobs:
     environment:
       name: Release
     if: |
-      github.event_name == 'push'
+      github.event.ref == 'refs/head/main'
     runs-on: ubuntu-latest
 
     steps:
