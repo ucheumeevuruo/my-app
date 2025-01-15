@@ -118,7 +118,7 @@ jobs:
 
   DeployProd:
     name: Deploy To Production
-    needs: DeployToRelease
+    needs: DeployRelease
     environment:
       name: Production
     if: |
