@@ -18,7 +18,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    environment:
+      name: Development
+    if: |
+      github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -83,6 +86,45 @@ jobs:
 
 
 
-      # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
+#       Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #      - name: Update dependency graph
 #        uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+
+  DeployDev:
+    name: Deploy To Dev
+    needs: Build
+    environment:
+      name: Development
+    if: |
+      github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+  DeployRelease:
+    name: Deploy To Release
+    needs: Build
+    environment:
+      name: Release
+    if: |
+      github.event.ref == 'refs/head/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+  DeployProd:
+    name: Deploy To Production
+    needs: DeployRelease
+    environment:
+      name: Production
+    if: |
+      github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
